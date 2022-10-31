@@ -10,7 +10,7 @@ properties([
 
 
 pipeline {
-    agent { label 'ccoe' }
+    agent { label 'dba' }
     options {
     	ansiColor('xterm') // Enables Colour output (useful for things like Ansible)
     }
