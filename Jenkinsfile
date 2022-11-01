@@ -43,7 +43,7 @@ pipeline {
                         // here you are in the appropriate account, test a basic command
                         venv.exec('aws s3 ls')
                         // do something useful
-                        venv.exec("source environment/${target}.sh && env && pwd && ls -la && chmod -x ./fun.sh")
+                        venv.exec("source environment/${target}.sh && env && pwd && ls -la && chmod +x ./fun.sh")
                         venv.exec("source environment/${target}.sh && ./fun.sh ${amiid} ${keypair}")
                     }
                 }
