@@ -35,7 +35,7 @@ pipeline {
                 script{
                     account_id = utils.get_account_id(params['Deployment Target'])
                     // withEnv(aws_session.get(account_id, params['Change Number'])) {
-                    withEnv(aws_session.get(account_id, params['Change Number'], "arn:aws:iam::${account_id}:role/Full-access") ){
+                    withEnv(aws_session.get(account_id, params['Change Number'], "arn:aws:iam::755616237556:role/Full-access") ){
                         target = params['Deployment Target']
                         amiid = params['Instance id']
                        // keypair = params['Keypair']
