@@ -4,8 +4,7 @@ pipeline {
     AWS_DEFAULT_REGION="ap-south-1"
     AWS_ACCESS_KEY_ID="AKIA273R4Y72MC5S4GF3"
     AWS_SECRET_ACCESS_KEY="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"
-    AWS_DEFAULT_REGION="ap-south-1"
-}
+  }
   stages {
     stage ('Hello All') {
         steps {
