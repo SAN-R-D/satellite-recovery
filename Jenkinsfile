@@ -37,7 +37,7 @@ pipeline {
                     // withEnv(aws_session.get(account_id, params['Change Number'])) {
                     withEnv(aws_session.get(account_id, params['Change Number'], "arn:aws:iam::${account_id}:role/Full-access") ){
                         target = params['Deployment Target']
-                        amiid = params['AMI id']
+                        amiid = params['Instance id']
                        // keypair = params['Keypair']
                         // here you are in the appropriate account, test a basic command
                       //  venv.exec('aws s3 ls')
