@@ -1,58 +1,18 @@
-
-properties([
-    parameters([
-        choice(name: 'Deployment Target', choices: ['TB-AWS-SS-Dev', 'TB-AWS-SS-PRD'], description: 'Choose deployment environment?'),
-        string(name: 'Change Number', defaultValue: '', description: 'Enter a ServiceNow Change Number if appropriate'),
-        string(name: 'Instance id', defaultValue: '', description: 'Enter the Instance you wish to start'),
-    ])
-])
-
-
 pipeline {
-    agent any
-    options {
-    	ansiColor('xterm') // Enables Colour output (useful for things like Ansible)
-    }
-
-    stages {
-
-        stage('Pre-Reqs') {
-            steps {
-                script{
-                    account_id = utils.get_account_id(params['Deployment Target'])
-                    withEnv(aws_session.get(account_id, params['Change Number'])) {
-                        // here you are in the appropriate account
-                        echo "inside withEnv"
-                        venv.exec('aws configure set region ap-south-1')
-                        venv.exec('aws configure get region')
-                    }
-                }
-            }
-        }
-
-        stage('Do something fun') {
-            steps {
-                script{
-                    account_id = utils.get_account_id(params['Deployment Target'])
-                    // withEnv(aws_session.get(account_id, params['Change Number'])) {
-                    withEnv(aws_session.get(account_id, params['Change Number'], "arn:aws:iam::755616237556:role/Full-access") ){
-                        target = params['Deployment Target']
-                        amiid = params['Instance id']
-                       // keypair = params['Keypair']
-                        // here you are in the appropriate account, test a basic command
-                      //  venv.exec('aws s3 ls')
-                        // do something useful
-                        venv.exec("source environment/${target}.sh && env && pwd && ls -la && chmod +x ./fun.sh")
-                        venv.exec("source environment/${target}.sh && ./fun.sh ${amiid} ${keypair}")
-                    }
-                }
-            }
-        }
-
-    }
-    post {
-        always {
-             deleteDir() // Clean up the directory so nothing is left behind
-        }
-    }
+  agent any
+  environment {
+    AWS_DEFAULT_REGION="ap-south-1"
+}
+  stages {
+    stage ('Hello All') {
+        steps {
+            withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'ec2user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]){
+            sh '''
+            aws --version
+            aws ec2 start-instances --instance-ids i-0154f303c114eb4cc
+             '''
+             }
+          }
+       }
+   }
 }
