@@ -3,8 +3,7 @@ properties([
     parameters([
         choice(name: 'Deployment Target', choices: ['TB-AWS-SS-Dev', 'TB-AWS-SS-PRD'], description: 'Choose deployment environment?'),
         string(name: 'Change Number', defaultValue: '', description: 'Enter a ServiceNow Change Number if appropriate'),
-        string(name: 'AMI id', defaultValue: '', description: 'Enter the id of the AMI that you wish to start'),
-        string(name: 'Keypair', defaultValue: '', description: 'Enter the name of the keypair to use for the instance'),
+        string(name: 'Instance id', defaultValue: '', description: 'Enter the Instance you wish to start'),
     ])
 ])
 
@@ -24,7 +23,7 @@ pipeline {
                     withEnv(aws_session.get(account_id, params['Change Number'])) {
                         // here you are in the appropriate account
                         echo "inside withEnv"
-                        venv.exec('aws configure set region eu-west-1')
+                        venv.exec('aws configure set region ap-south-1')
                         venv.exec('aws configure get region')
                     }
                 }
